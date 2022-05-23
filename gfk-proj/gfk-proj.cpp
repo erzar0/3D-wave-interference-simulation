@@ -1,6 +1,9 @@
+#define SFML_STATIC
 #include "imgui.h"
 #include "imgui-SFML.h"
 
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
