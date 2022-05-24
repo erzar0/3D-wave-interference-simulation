@@ -1,0 +1,10 @@
+{
+  "name": "gfk-project",
+  "version-string": "",
+  "dependencies": [
+    "sfml",
+    "imgui",
+    "imgui-sfml",
+    "eigen3"
+   ]
+}

@@ -9,14 +9,13 @@
 class Project{
 public:
     static Project& init();
-    Project();
-    virtual ~Project();
-
-    Project(Project& p) = delete;
-    void operator=(Project& p) = delete;
-
 
 private:
+
+    Project();
+    virtual ~Project();
+    Project(Project& p) = delete;
+    void operator=(Project& p) = delete;
 
     sf::RenderWindow* m_window{};
     sf::Event m_sfEvent{};
@@ -27,13 +26,3 @@ private:
     void updateEvents();
     void render();
 };
- /*{
-    sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
-    window.setFramerateLimit(60);
-    ImGui::SFML::Init(window);
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-   
-}*/
