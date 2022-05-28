@@ -1,5 +1,8 @@
 #include "Project.h"
 #include "Utils.h"
+#include <iostream>
+#include <cmath>
+#include <string>
 
 void Project::initWindow()
 {
@@ -42,6 +45,7 @@ void Project::updateEvents()
             m_window->close();
         }
     }
+    ImGui::SFML::Update(*m_window, m_dt);
 }
 
 void Project::updateDt()
@@ -89,7 +93,6 @@ void Project::run()
     while (m_window->isOpen())
     {
         update();
-        ImGui::SFML::Update(*m_window, m_dt);
         render();
     }
 

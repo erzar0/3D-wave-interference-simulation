@@ -1,8 +1,5 @@
 #pragma once
 #define SFML_STATIC
-#include <iostream>
-#include <cmath>
-#include <string>
 #include "imgui.h"
 #include "imgui-SFML.h"
 #include <SFML/Window.hpp>
@@ -13,6 +10,7 @@
 class Project{
 public:
     static Project& init();
+    friend class GUI;
 
 private:
 
