@@ -168,6 +168,7 @@
     <ClCompile Include="Project.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Project.h" />
   </ItemGroup>
   <ItemGroup>

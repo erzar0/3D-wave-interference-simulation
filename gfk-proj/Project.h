@@ -1,10 +1,14 @@
-#define SFML_STATIC
 #pragma once
+#define SFML_STATIC
+#include <iostream>
+#include <cmath>
+#include <string>
 #include "imgui.h"
 #include "imgui-SFML.h"
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+
 
 class Project{
 public:
@@ -20,9 +24,14 @@ private:
     sf::RenderWindow* m_window{};
     sf::Event m_sfEvent{};
     sf::Clock m_deltaClock{};
+    sf::Time m_dt{};
     void run();
     void initWindow();
+
+    void render();
+    void renderDebugInfo();
+
     void update();
     void updateEvents();
-    void render();
+    void updateDt();
 };

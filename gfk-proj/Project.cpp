@@ -1,4 +1,5 @@
 #include "Project.h"
+#include "Utils.h"
 
 void Project::initWindow()
 {
@@ -25,6 +26,11 @@ Project& Project::init()
     return instance;
 }
 
+void Project::update()
+{
+    updateDt();
+    updateEvents();
+}
 
 void Project::updateEvents()
 {
@@ -38,13 +44,17 @@ void Project::updateEvents()
     }
 }
 
+void Project::updateDt()
+{
+    m_dt = m_deltaClock.restart();
+}
+
 void Project::render()
 {
     sf::CircleShape shape(100.f, 10);
     shape.setFillColor(sf::Color::Green);
-    ImGui::Begin("Hello, world!");
-    ImGui::Button("Look at this pretty button");
-    ImGui::End();
+
+    renderDebugInfo();
 
 
     m_window->clear();
@@ -52,18 +62,36 @@ void Project::render()
     ImGui::SFML::Render(*m_window);
     m_window->display();
 }
+
+void Project::renderDebugInfo()
+{
+    double updatesPerSec = 5;
+    double dtAsSeconds = m_dt.asMicroseconds() / std::pow(10, 6);
+
+    static std::string fps{ 0 };
+    static std::string frameTime{ 0 };
+    static double timeElapsed{ 0 };
+    timeElapsed += dtAsSeconds;
+
+    if(timeElapsed >= 1/updatesPerSec)
+    { 
+        timeElapsed = 0;
+		fps = std::string("FPS: ") + std::to_string(static_cast<int>(1.0/dtAsSeconds));
+		frameTime = std::string("Frametime: ") + utils::to_string_with_precision<double>(dtAsSeconds*1000.0, 2) + "ms";
+    }
+	ImGui::Begin("Debug Info");
+	ImGui::Text(fps.c_str());
+	ImGui::Text(frameTime.c_str());
+	ImGui::End();
+}
 void Project::run()
 {
     while (m_window->isOpen())
     {
         update();
-        ImGui::SFML::Update(*m_window, m_deltaClock.restart());
+        ImGui::SFML::Update(*m_window, m_dt);
         render();
     }
 
 }
 
-void Project::update()
-{
-    updateEvents();
-}
