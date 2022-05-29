@@ -80,7 +80,7 @@ void Project::renderDebugInfo()
     if(timeElapsed >= 1/updatesPerSec)
     { 
         timeElapsed = 0;
-		fps = std::string("FPS: ") + std::to_string(static_cast<int>(1.0/dtAsSeconds));
+		fps = std::string("FPS: 11") + std::to_string(static_cast<int>(1.0/dtAsSeconds));
 		frameTime = std::string("Frametime: ") + utils::to_string_with_precision<double>(dtAsSeconds*1000.0, 2) + "ms";
     }
 	ImGui::Begin("Debug Info");
