@@ -168,9 +168,12 @@
     <ClCompile Include="Matvec.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Project.cpp" />
+    <ClCompile Include="TransformMatrix.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enums.h" />
+    <ClInclude Include="TransformMatrix.h" />
     <ClInclude Include="Matvec.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Utils.h" />

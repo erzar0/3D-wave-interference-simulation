@@ -6,12 +6,15 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include "Mesh.h"
+#include "Enums.h"
+
 
 
 class Project{
 public:
     static Project& init();
     friend class GUI;
+    static float m_options[14];
 
 private:
     Project();
@@ -24,7 +27,6 @@ private:
     sf::Clock m_deltaClock{};
     sf::Time m_dt{};
     Mesh m_mesh{};
-    
     void run();
     void initWindow();
 
