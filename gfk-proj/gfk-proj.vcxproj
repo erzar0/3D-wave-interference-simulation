@@ -165,9 +165,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matvec.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Project.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Matvec.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Project.h" />
   </ItemGroup>

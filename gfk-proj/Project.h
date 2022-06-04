@@ -5,6 +5,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "Mesh.h"
 
 
 class Project{
@@ -13,7 +14,6 @@ public:
     friend class GUI;
 
 private:
-
     Project();
     virtual ~Project();
     Project(Project& p) = delete;
@@ -23,6 +23,8 @@ private:
     sf::Event m_sfEvent{};
     sf::Clock m_deltaClock{};
     sf::Time m_dt{};
+    Mesh m_mesh{};
+    
     void run();
     void initWindow();
 
