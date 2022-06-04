@@ -75,6 +75,7 @@ void Project::renderDebugInfo()
     static std::string fps{ 0 };
     static std::string frameTime{ 0 };
     static double timeElapsed{ 0 };
+    float amp = 0.5, freq = 0.5;
     timeElapsed += dtAsSeconds;
 
     if(timeElapsed >= 1/updatesPerSec)
@@ -83,9 +84,19 @@ void Project::renderDebugInfo()
 		fps = std::string("FPS: ") + std::to_string(static_cast<int>(1.0/dtAsSeconds));
 		frameTime = std::string("Frametime: ") + utils::to_string_with_precision<double>(dtAsSeconds*1000.0, 2) + "ms";
     }
-	ImGui::Begin("Debug Info");
+	ImGui::Begin("Menu");
 	ImGui::Text(fps.c_str());
 	ImGui::Text(frameTime.c_str());
+    ImGui::SliderFloat("Amplitude", &amp, 0.0f, 1.0f);
+    ImGui::SliderFloat("Frequency", &freq, 0.0f, 1.0f);    
+    for(int i = 0; i < 3; i++)
+        ImGui::Spacing();
+    ImGui::Button("Save",ImVec2(80.0f,0.0f));
+    ImGui::SameLine();
+    ImGui::Button("Copy", ImVec2(80.0f, 0.0f));
+    ImGui::SameLine();
+    ImGui::Button("Stop",ImVec2(80.0f,0.0f));
+
 	ImGui::End();
 }
 void Project::run()
