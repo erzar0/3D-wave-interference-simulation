@@ -12,13 +12,14 @@
 class Mesh {
 public:
 	Mesh(int density = 100);
+	~Mesh() { delete[] m_sfPoints; }
 	void renderOnWindow(sf::RenderWindow* window);
 	TransformMatrix& getTransMat(void) { return m_M; }
 
 private:
 	int m_density{};
 	TransformMatrix m_M{};
-	std::vector<std::vector<sf::Vertex>> m_sfPoints;
+	sf::Vertex* m_sfPoints{};
 	std::vector<std::vector<Eigen::Vector4d>> m_points{};
 };
 
