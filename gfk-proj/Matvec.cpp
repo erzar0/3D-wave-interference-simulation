@@ -4,7 +4,6 @@
 using std::sin;
 using std::cos;
 
-const double pi = 3.14159265359;
 
 
 Eigen::Matrix4d translate(double tx, double ty, double tz){
@@ -72,7 +71,7 @@ Eigen::Matrix4d projectionMatrix(double angleOfView, double near, double far)
 	res << scale, 0, 0, 0,
 		0, scale, 0, 0,
 		0, 0, -far / (far - near), -1,
-		0, 0, -far * near / (far - near), 1;
+		0, 0, -far * near / (far - near),1 ;
 	return res;
 }
 

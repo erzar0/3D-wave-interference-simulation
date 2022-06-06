@@ -1,9 +1,13 @@
 #pragma once
 #define SFML_STATIC
+#include <SFML/Graphics.hpp>
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <cmath>
+#include <cfloat>
 
+//double PI = std::atan(DBL_MAX);
 namespace utils
 {
     template<typename T>
@@ -16,5 +20,6 @@ namespace utils
     }
 
     double mapInterval(double start1, double stop1, double start2, double stop2, double value);
-
+    sf::Color HSVtoRGB(float H, float S = 1.0, float V = 1.0);
+	
 };

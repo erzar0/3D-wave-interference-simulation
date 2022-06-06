@@ -1,6 +1,7 @@
 #pragma once
 #define SFML_STATIC
 #include <Eigen/Dense>
+const double pi = 3.14159265359;
 
 Eigen::Matrix4d translate(double tx = 0, double ty = 0, double tz = 0);
 Eigen::Matrix4d rotateX(double ax = 0);

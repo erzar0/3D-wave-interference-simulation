@@ -54,6 +54,7 @@ void Project::updateEvents()
 void Project::updateDt()
 {
     m_dt = m_deltaClock.restart();
+    m_mesh.updateTime(m_dt);
 }
 
 void Project::render()
@@ -114,7 +115,7 @@ void Project::renderDebugInfo()
     if(ImGui::SliderFloat("Translate Y", m_options+9, -1.0f, 1.0f)){
         m_mesh.getTransMat().translateY(m_options[OPT::TRANSY]);
     }    
-    if(ImGui::SliderFloat("Translate Z", m_options+10, -1.0f, 1.0f)){
+    if(ImGui::SliderFloat("Translate Z", m_options+10, -3.0f, 3.0f)){
         m_mesh.getTransMat().translateZ(m_options[OPT::TRANSZ]);
     }    
     if(ImGui::SliderFloat("FOV", m_options+11, 0.0f, 170.0f)){
