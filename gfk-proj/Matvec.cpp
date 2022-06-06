@@ -75,3 +75,4 @@ Eigen::Matrix4d projectionMatrix(double angleOfView, double near, double far)
 		0, 0, -far * near / (far - near), 1;
 	return res;
 }
+
