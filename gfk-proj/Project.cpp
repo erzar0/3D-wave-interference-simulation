@@ -9,7 +9,7 @@ float Project::m_options[14]{};
 
 void Project::initWindow()
 {
-	m_window = new sf::RenderWindow(sf::VideoMode(1024, 768), "3DWaveInterference");
+	m_window = new sf::RenderWindow(sf::VideoMode(1440, 1080), "3DWaveInterference");
     ImGui::SFML::Init(*m_window);
 }
 
