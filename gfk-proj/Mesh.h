@@ -6,6 +6,7 @@
 #include <Eigen/Dense>
 #include <vector>
 #include <iostream>
+#include <array>
 #include "TransformMatrix.h"
 #include "Utils.h"
 #include <Eigen/Core>
@@ -25,7 +26,10 @@ private:
 	int m_density{};
 	TransformMatrix m_M{};
 	sf::Vertex* m_sfPoints{};
+	std::vector<std::array<sf::Vertex, 4>> m_sfQuads;
+	sf::Vertex* m_sfQuadsSorted{};
 	Eigen::Vector4d* m_points{};
+
 	static double m_time;
 	//std::vector<std::vector<Eigen::Vector4d>> m_points{};
 };

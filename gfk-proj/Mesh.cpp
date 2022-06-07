@@ -30,7 +30,7 @@ void Mesh::updatePoints(void)
 			double y = -1.0 + d * j;
 			double z = interferenceFun(x, y);
 			m_points[i * m_density + j] = Eigen::Vector4d(x, y, z, 1.0);
-			m_sfPoints[i * m_density + j].color = utils::HSVtoRGB((float)utils::mapInterval(-1.0f, 1.0f, 0.0f, 1.0f, z));
+			m_sfPoints[i * m_density + j].color = utils::HSVtoRGB( (float) (z+1.0f)/2.0f);
 		}
 	}
 }
@@ -39,13 +39,19 @@ Mesh::Mesh(int density) :
 {
 	m_sfPoints =  new sf::Vertex[m_density * m_density];
 	m_points = new Eigen::Vector4d[m_density * m_density];
+	m_sfQuads.reserve(m_density* m_density);
+	for(int i = 0; i<m_density * m_density; i++)
+	{
+		m_sfQuads.push_back(std::array<sf::Vertex, 4>());
+	}
 	updatePoints();
 }
-
 void Mesh::renderOnWindow(sf::RenderWindow* window)
 {
 	updatePoints();
 	sf::Vector2i size = (sf::Vector2i) window->getSize();
+	Eigen::Matrix4d viewModel = m_M.get().inverse();
+	Eigen::Vector4d cameraPostion = viewModel.col(3);
 
 	#pragma omp parallel for 
 	for (int i{ 0 }; i < m_density; i++)
@@ -54,14 +60,34 @@ void Mesh::renderOnWindow(sf::RenderWindow* window)
 		{
 
 			float x, y, w;
-			Eigen::Vector4d temp;
-			temp = m_M.get() * m_points[i*m_density + j];
-			w = (float)temp.w();
-			x = (float)utils::mapInterval(-1, 1, 0, size.x, temp.x()/w);
-			y = (float)utils::mapInterval(-1, 1, 0, size.y, temp.y()/w);
+			m_points [i*m_density + j] = m_M.get() * m_points[i * m_density + j];
+			w = (float)m_points[i*m_density + j].w();
+			x = (float)utils::mapInterval(-1, 1, 0, size.x, m_points[i*m_density + j].x() / w);
+			y = (float)utils::mapInterval(-1, 1, 0, size.y, m_points[i*m_density + j].y() / w);
 			m_sfPoints[i * m_density + j].position = sf::Vector2f(x, y);
 
 		}
+	}
+
+	for (int i{ 1 }; i < m_density; i++)
+	{
+		for (int j{ 1 }; j < m_density; j++)
+		{
+			m_sfQuads[i * m_density + j ][0] = m_sfPoints[(i - 1) * m_density + j - 1];
+			m_sfQuads[i * m_density + j ][1] = m_sfPoints[(i - 1) * m_density + j];
+			m_sfQuads[i * m_density + j ][2] = m_sfPoints[(i) * m_density + j];
+			m_sfQuads[i * m_density + j ][3] = m_sfPoints[(i) * m_density + j - 1];
+		}
+	}
+	sf::Vertex* vertecies = new sf::Vertex[4];
+	for (int i = 0; i < 10000; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			vertecies[j] = m_sfQuads[i][j];
+		}
+		window->draw(vertecies, 4, sf::Quads);
+
 	}
 	window->draw(m_sfPoints, m_density*m_density, sf::Points);
 

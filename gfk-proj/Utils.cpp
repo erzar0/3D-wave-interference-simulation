@@ -17,24 +17,38 @@ sf::Color utils::HSVtoRGB(float H, float S, float V)
 	float G = 0.f;
 	float B = 0.f;
 
-	switch (static_cast<int>(HPrime))
+	int val = static_cast<int>(HPrime);
+	
+	if (val == 0) {
+		R = C; G = X;
+	}     
+	else if(val == 1)
 	{
-	case 0: R = C; G = X;        break; // [0, 1)
-	case 1: R = X; G = C;        break; // [1, 2)
-	case 2:        G = C; B = X; break; // [2, 3)
-	case 3:        G = X; B = C; break; // [3, 4)
-	case 4: R = X;        B = C; break; // [4, 5)
-	case 5: R = C;        B = X; break; // [5, 6)
+		R = X; G = C;
+	}
+	else if (val == 2)
+	{
+		G = C; B = X;
+	}
+	else if (val == 3)
+	{
+		G = X; B = C;
+	}
+	else if (val == 4)
+	{
+		R = X; B = C;
+	}
+	else
+	{
+		R = C;B = X; 
 	}
 
 	R += M;
 	G += M;
 	B += M;
 
-	sf::Color color;
-	color.r = static_cast<sf::Uint8>(std::round(R * 255));
-	color.g = static_cast<sf::Uint8>(std::round(G * 255));
-	color.b = static_cast<sf::Uint8>(std::round(B * 255));
+	return sf::Color(static_cast<sf::Uint8>(std::round(R * 255)),
+		 static_cast<sf::Uint8>(std::round(G * 255)),
+		 static_cast<sf::Uint8>(std::round(B * 255)));
 
-	return color;
 }
