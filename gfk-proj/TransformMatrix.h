@@ -13,14 +13,17 @@ public:
 	void rotateY(double ay);
 	void rotateZ(double az);
 	void mrotate(double ax=0, double ay=0, double az=0);
-	void scaleX(double sx);
-	void scaleY(double sy);
-	void scaleZ(double sz);
+	void scaleX(double sx = 0.25);
+	void scaleY(double sy = 0.25);
+	void scaleZ(double sz = 0.025);
 	void mscale(double sx = 1, double sy = 1, double sz = 1);
 	void translateX(double tx);
 	void translateY(double ty);
 	void translateZ(double tz);
 	void mtranslate(double tx=0, double ty=0, double tz=0);
+	void changeFOV(double fov = 60);
+	void changeFar(double far = 100);
+	void changeNear(double near = 1);
 	void projection(double fov=60, double far=100, double near=1);
 
 private:

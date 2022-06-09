@@ -24,6 +24,7 @@ double Mesh::interferenceFun(double x, double y, double dx1, double dy1, double 
 void Mesh::updatePoints(void)
 {
 	double d = 2.0f / m_density;
+
 	#pragma omp parallel for
 	for (int i{ 0 }; i < m_density; i++)
 	{
@@ -77,27 +78,26 @@ void Mesh::renderOnWindow(sf::RenderWindow* window)
 	sf::Vector2i size = (sf::Vector2i) window->getSize();
 	Eigen::Matrix4d viewModel = m_M.get().inverse();
 	Eigen::Vector4d cameraPosition = viewModel.col(3);
-
 	#pragma omp parallel for 
 	for (int i{ 0 }; i < m_density; i++)
 	{
 		for (int j{ 0 }; j < m_density; j++)
 		{
-			m_points [i*m_density + j] = m_M.get() * m_points[i * m_density + j];
+			m_points[i * m_density + j] = m_M.get() * m_points[i * m_density + j];
 			float x, y, w;
-			w = (float)m_points[i*m_density + j].w();
-			x = (float)utils::mapInterval(-1, 1, 0, size.x, m_points[i*m_density + j].x() / w);
-			y = (float)utils::mapInterval(-1, 1, 0, size.y, m_points[i*m_density + j].y() / w);
+			w = (float)m_points[i * m_density + j].w();
+			x = (float)utils::mapInterval(-1, 1, 0, size.x, m_points[i * m_density + j].x() / w);
+			y = (float)utils::mapInterval(-1, 1, 0, size.y, m_points[i * m_density + j].y() / w);
 			m_sfPoints[i * m_density + j].position = sf::Vector2f(x, y);
 
-			if (i != 0 && j != 0)
+			if (i != 0 && j != 0 && !stopped)
 			{
 				m_sfQuads[i * m_density + j][0] = m_sfPoints[(i - 1) * m_density + j - 1];
 				m_sfQuads[i * m_density + j][1] = m_sfPoints[(i - 1) * m_density + j];
 				m_sfQuads[i * m_density + j][2] = m_sfPoints[(i)*m_density + j];
 				m_sfQuads[i * m_density + j][3] = m_sfPoints[(i)*m_density + j - 1];
-				m_sfQuads[i * m_density + j][4].position.x = (float)distanceFromCamera(cameraPosition, m_points[i*m_density + j]);
-					
+				m_sfQuads[i * m_density + j][4].position.x = (float)distanceFromCamera(cameraPosition, m_points[i * m_density + j]);
+
 			}
 		}
 	}

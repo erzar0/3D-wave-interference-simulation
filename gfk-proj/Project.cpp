@@ -5,7 +5,8 @@
 #include <cmath>
 #include <string>
 
-float Project::m_options[14]{};
+float Project::m_options[14] = {(float)0.0,(float)0.0,(float)0.0,(float)0.0,(float)0.0,(float)0.25,(float)0.2,(float)0.025,(float)0.0,(float)0.0,(float)0.0,(float)60.0,(float)0.0,(float)0.0};
+
 
 void Project::initWindow()
 {
@@ -77,63 +78,80 @@ void Project::renderDebugInfo()
     static double timeElapsed{ 0 };
     timeElapsed += dtAsSeconds;
 
-    if(timeElapsed >= 1/updatesPerSec)
-    { 
+    if (timeElapsed >= 1 / updatesPerSec)
+    {
         timeElapsed = 0;
-		fps = std::string("FPS: ") + std::to_string(static_cast<int>(1.0/dtAsSeconds));
-		frameTime = std::string("Frametime: ") + utils::to_string_with_precision<double>(dtAsSeconds*1000.0, 2) + "ms";
+        fps = std::string("FPS: ") + std::to_string(static_cast<int>(1.0 / dtAsSeconds));
+        frameTime = std::string("Frametime: ") + utils::to_string_with_precision<double>(dtAsSeconds * 1000.0, 2) + "ms";
     }
-	ImGui::Begin("Menu");
-	ImGui::Text(fps.c_str());
-	ImGui::Text(frameTime.c_str());
+    ImGui::Begin("Menu");
+    ImGui::Text(fps.c_str());
+    ImGui::Text(frameTime.c_str());
+    m_mesh.getTransMat().scaleX(m_options[OPT::SCALEX]);
+    m_mesh.getTransMat().scaleY(m_options[OPT::SCALEY]);
+    m_mesh.getTransMat().scaleZ(m_options[OPT::SCALEZ]);
+
     //enum 
-    if(ImGui::SliderFloat("Amplitude", m_options, -1.0, 1.0)){
+    if (ImGui::SliderFloat("Amplitude", m_options, -1.0, 1.0)) {
     }
-    if(ImGui::SliderFloat("Frequency", m_options+1, -1.0, 1.0)){
+    if (ImGui::SliderFloat("Frequency", m_options + 1, -1.0, 1.0)) {
     }
-    if(ImGui::SliderFloat("Rotate X", m_options+2, -3.14f, 3.14f)){
+    if (ImGui::SliderFloat("Rotate X", m_options + 2, -3.14f, 3.14f)) {
         m_mesh.getTransMat().rotateX(m_options[OPT::ROTX]);
     }
-    if(ImGui::SliderFloat("Rotate Y", m_options+3, -3.14f, 3.14f)){
+    if (ImGui::SliderFloat("Rotate Y", m_options + 3, -3.14f, 3.14f)) {
         m_mesh.getTransMat().rotateY(m_options[OPT::ROTY]);
     }
-    if(ImGui::SliderFloat("Rotate Z", m_options+4, -3.14f, 3.14f)){
+    if (ImGui::SliderFloat("Rotate Z", m_options + 4, -3.14f, 3.14f)) {
         m_mesh.getTransMat().rotateZ(m_options[OPT::ROTZ]);
     }
-    if(ImGui::SliderFloat("Scale X", m_options+5, -2.0f, 2.0f)){
+    if (ImGui::SliderFloat("Scale X", m_options + 5, -1.0f, 1.0f)) {
         m_mesh.getTransMat().scaleX(m_options[OPT::SCALEX]);
-    }    
-    if(ImGui::SliderFloat("Scale Y", m_options+6, -2.0f, 2.0f)){
+    }
+    if (ImGui::SliderFloat("Scale Y", m_options + 6, -1.0f, 1.0f)) {
         m_mesh.getTransMat().scaleY(m_options[OPT::SCALEY]);
     }
-    if(ImGui::SliderFloat("Scale Z", m_options+7, -2.0f, 2.0f)){
+    if (ImGui::SliderFloat("Scale Z", m_options + 7, -1.0f, 1.0f)) {
         m_mesh.getTransMat().scaleZ(m_options[OPT::SCALEZ]);
-    }    
-    if(ImGui::SliderFloat("Translate X", m_options+8, -1.0f, 1.0f)){
+    }
+    if (ImGui::SliderFloat("Translate X", m_options + 8, -1.0f, 1.0f)) {
         m_mesh.getTransMat().translateX(m_options[OPT::TRANSX]);
-    }    
-    if(ImGui::SliderFloat("Translate Y", m_options+9, -1.0f, 1.0f)){
+    }
+    if (ImGui::SliderFloat("Translate Y", m_options + 9, -1.0f, 1.0f)) {
         m_mesh.getTransMat().translateY(m_options[OPT::TRANSY]);
-    }    
-    if(ImGui::SliderFloat("Translate Z", m_options+10, -3.0f, 3.0f)){
+    }
+    if (ImGui::SliderFloat("Translate Z", m_options + 10, -3.0f, 3.0f)) {
         m_mesh.getTransMat().translateZ(m_options[OPT::TRANSZ]);
-    }    
-    if(ImGui::SliderFloat("FOV", m_options+11, 0.0f, 170.0f)){
-    }    
-    if(ImGui::SliderFloat("Far", m_options+12, -1.0f, 1.0f)){
-    }    
-    if(ImGui::SliderFloat("Near", m_options+13, -1.0f, 1.0f)){
-    }    
+    }
+    if (ImGui::SliderFloat("FOV", m_options + 11, 0.0f, 170.0f)) {
+        m_mesh.getTransMat().changeFOV(m_options[OPT::FOV]);
+    }
+    if (ImGui::SliderFloat("Far", m_options + 12, -1.0f, 1.0f)) {
+        m_mesh.getTransMat().changeFar(m_options[OPT::FAR]);
+    }
+    if (ImGui::SliderFloat("Near", m_options + 13, -1.0f, 1.0f)) {
+        m_mesh.getTransMat().changeNear(m_options[OPT::NEAR]);
+    }
 
-    for(int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++)
         ImGui::Spacing();
 
 
-    ImGui::Button("Save",ImVec2(80.0f,0.0f));
+    if(ImGui::Button("Save", ImVec2(80.0f, 0.0f))){
+        sf::RenderWindow* window = Project::getWindow();
+        sf::Vector2u windowSize = window->getSize();
+        sf::Texture texture;
+        texture.create(windowSize.x, windowSize.y);
+        texture.update(*window);
+        sf::Image screenshot = texture.copyToImage();
+        screenshot.saveToFile("output.png");
+    }
     ImGui::SameLine();
     ImGui::Button("Copy", ImVec2(80.0f, 0.0f));
     ImGui::SameLine();
-    ImGui::Button("Stop",ImVec2(80.0f,0.0f));
+    if (ImGui::Button("Stop", ImVec2(80.0f, 0.0f))) {
+        m_mesh.getStopped() == false ? m_mesh.setStopped(true) : m_mesh.setStopped(false);
+    }
 
 	ImGui::End();
 }

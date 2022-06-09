@@ -15,6 +15,7 @@ public:
     static Project& init();
     friend class GUI;
     static float m_options[14];
+    sf::RenderWindow* getWindow() { return m_window; };
 
 private:
     Project();

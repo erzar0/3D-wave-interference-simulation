@@ -26,3 +26,6 @@ void TransformMatrix::translateY(double ty){ m_ty = ty; update();}
 void TransformMatrix::translateZ(double tz){ m_tz = tz; update();}
 void TransformMatrix::mtranslate(double tx, double ty, double tz) { m_tx = tx; m_ty = ty; m_tz = tz; update(); }
 void TransformMatrix::projection(double fov, double far, double near){m_fov = fov; m_far = far; m_near = near; update();}
+void TransformMatrix::changeFOV(double fov) { m_fov = fov; update(); }
+void TransformMatrix::changeFar(double far) { m_far = far; update(); }
+void TransformMatrix::changeNear(double near) { m_near = near; update(); }
