@@ -5,8 +5,8 @@
 #include <cmath>
 #include <string>
 
-float Project::m_options[14] = {(float)0.0,(float)0.0,(float)0.0,(float)0.0,(float)0.0,(float)0.25,(float)0.2,(float)0.025,(float)0.0,(float)0.0,(float)0.0,(float)60.0,(float)0.0,(float)0.0};
-
+float Project::m_options[14] = {(float)0.0,(float)10.0,(float)0.0,(float)0.0,(float)0.0,(float)0.25,(float)0.2,(float)0.025,(float)0.0,(float)0.0,(float)0.0,(float)60.0,(float)0.0,(float)0.0};
+float Mesh::m_wavesParameters[10] = {(float)-0.5,(float)-0.5,(float)0.5,(float)0.5,(float)3,(float)3,(float)0.2,(float)0.1,(float)60,(float)60};
 
 void Project::initWindow()
 {
@@ -55,7 +55,8 @@ void Project::updateEvents()
 void Project::updateDt()
 {
     m_dt = m_deltaClock.restart();
-    m_mesh.updateTime(m_dt);
+    if(!stopped)
+        m_mesh.updateTime(m_dt);
 }
 
 void Project::render()
@@ -91,11 +92,22 @@ void Project::renderDebugInfo()
     m_mesh.getTransMat().scaleY(m_options[OPT::SCALEY]);
     m_mesh.getTransMat().scaleZ(m_options[OPT::SCALEZ]);
 
+    ImGui::Spacing();
+    ImGui::Text("Wave parameters:");
+    ImGui::SliderFloat("x1", Mesh::m_wavesParameters, -1.0, 1.0);
+    ImGui::SliderFloat("y1", Mesh::m_wavesParameters+1, -1.0, 1.0);
+    ImGui::SliderFloat("x2", Mesh::m_wavesParameters+2, -1.0, 1.0);
+    ImGui::SliderFloat("y2", Mesh::m_wavesParameters+3, -1.0, 1.0);
+    ImGui::SliderFloat("Amplitude 1", Mesh::m_wavesParameters+4, 0.0, 10.0);
+    ImGui::SliderFloat("Amplitude 2", Mesh::m_wavesParameters+5, 0.0, 10.0);
+    ImGui::SliderFloat("Frequency 1",Mesh::m_wavesParameters+6, 0.0, 2.0);
+    ImGui::SliderFloat("Frequency 2",Mesh::m_wavesParameters+7, 0.0, 2.0);
+    ImGui::SliderFloat("Length 1", Mesh::m_wavesParameters + 8, 50.0, 100.0);
+    ImGui::SliderFloat("Length 2", Mesh::m_wavesParameters + 9, 50.0, 100.0);
+    
+    ImGui::Spacing();
+    ImGui::Text("Manipulating wave:");
     //enum 
-    if (ImGui::SliderFloat("Amplitude", m_options, -1.0, 1.0)) {
-    }
-    if (ImGui::SliderFloat("Frequency", m_options + 1, -1.0, 1.0)) {
-    }
     if (ImGui::SliderFloat("Rotate X", m_options + 2, -3.14f, 3.14f)) {
         m_mesh.getTransMat().rotateX(m_options[OPT::ROTX]);
     }
@@ -138,11 +150,10 @@ void Project::renderDebugInfo()
 
 
     if(ImGui::Button("Save", ImVec2(80.0f, 0.0f))){
-        sf::RenderWindow* window = Project::getWindow();
-        sf::Vector2u windowSize = window->getSize();
+        sf::Vector2u windowSize = m_window->getSize();
         sf::Texture texture;
         texture.create(windowSize.x, windowSize.y);
-        texture.update(*window);
+        texture.update(*m_window);
         sf::Image screenshot = texture.copyToImage();
         screenshot.saveToFile("output.png");
     }
@@ -150,7 +161,7 @@ void Project::renderDebugInfo()
     ImGui::Button("Copy", ImVec2(80.0f, 0.0f));
     ImGui::SameLine();
     if (ImGui::Button("Stop", ImVec2(80.0f, 0.0f))) {
-        m_mesh.getStopped() == false ? m_mesh.setStopped(true) : m_mesh.setStopped(false);
+        stopped == false ? stopped = true : stopped = false;
     }
 
 	ImGui::End();

@@ -90,7 +90,7 @@ void Mesh::renderOnWindow(sf::RenderWindow* window)
 			y = (float)utils::mapInterval(-1, 1, 0, size.y, m_points[i * m_density + j].y() / w);
 			m_sfPoints[i * m_density + j].position = sf::Vector2f(x, y);
 
-			if (i != 0 && j != 0 && !stopped)
+			if (i != 0 && j != 0)
 			{
 				m_sfQuads[i * m_density + j][0] = m_sfPoints[(i - 1) * m_density + j - 1];
 				m_sfQuads[i * m_density + j][1] = m_sfPoints[(i - 1) * m_density + j];

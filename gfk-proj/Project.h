@@ -15,13 +15,13 @@ public:
     static Project& init();
     friend class GUI;
     static float m_options[14];
-    sf::RenderWindow* getWindow() { return m_window; };
 
 private:
     Project();
     virtual ~Project();
     Project(Project& p) = delete;
     void operator=(Project& p) = delete;
+    bool stopped{ false };
 
     sf::RenderWindow* m_window{};
     sf::Event m_sfEvent{};
