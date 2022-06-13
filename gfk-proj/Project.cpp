@@ -10,7 +10,7 @@ float Mesh::m_wavesParameters[10] = {(float)-0.5,(float)-0.5,(float)0.5,(float)0
 
 void Project::initWindow()
 {
-	m_window = new sf::RenderWindow(sf::VideoMode(1440, 1080), "3DWaveInterference");
+	m_window = new sf::RenderWindow(sf::VideoMode(1280, 960), "3DWaveInterference");
     ImGui::SFML::Init(*m_window);
 }
 
@@ -86,6 +86,8 @@ void Project::renderDebugInfo()
         frameTime = std::string("Frametime: ") + utils::to_string_with_precision<double>(dtAsSeconds * 1000.0, 2) + "ms";
     }
     ImGui::Begin("Menu");
+    ImGui::SetWindowPos(ImVec2(float(m_window->getSize().x-330), float(m_window->getSize().y-800)));
+    ImGui::SetWindowSize(ImVec2(300, 650));
     ImGui::Text(fps.c_str());
     ImGui::Text(frameTime.c_str());
     m_mesh.getTransMat().scaleX(m_options[OPT::SCALEX]);
@@ -157,8 +159,6 @@ void Project::renderDebugInfo()
         sf::Image screenshot = texture.copyToImage();
         screenshot.saveToFile("output.png");
     }
-    ImGui::SameLine();
-    ImGui::Button("Copy", ImVec2(80.0f, 0.0f));
     ImGui::SameLine();
     if (ImGui::Button("Stop", ImVec2(80.0f, 0.0f))) {
         stopped == false ? stopped = true : stopped = false;
