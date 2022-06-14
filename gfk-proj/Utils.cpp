@@ -1,4 +1,7 @@
 #include "Utils.h"
+#include <iostream>
+#include <cmath>
+#include <cfloat>
     
 double utils::mapInterval(double start1, double stop1, double start2, double stop2, double value)
 {
@@ -51,4 +54,11 @@ sf::Color utils::HSVtoRGB(float H, float S, float V)
 		 static_cast<sf::Uint8>(std::round(G * 255)),
 		 static_cast<sf::Uint8>(std::round(B * 255)));
 
+}
+
+double utils::distanceBetweenPoints(Eigen::Vector4d& p1, Eigen::Vector4d& p2)
+{
+	return std::sqrt(std::pow(p2.x() - p1.x(), 2)
+		+ std::pow(p2.y() - p1.y(), 2)
+		+ std::pow(p2.z() - p1.z(), 2));
 }

@@ -172,7 +172,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matvec.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="TransformMatrix.cpp" />
@@ -181,7 +180,6 @@
   <ItemGroup>
     <ClInclude Include="Enums.h" />
     <ClInclude Include="TransformMatrix.h" />
-    <ClInclude Include="Matvec.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Project.h" />

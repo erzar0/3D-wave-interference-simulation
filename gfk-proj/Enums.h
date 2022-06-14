@@ -1,8 +1,6 @@
 #pragma once
 
-enum OPT {
-    AMP = 0,
-    FREQ,
+enum RENDER {
     ROTX,
     ROTY,
     ROTZ,
@@ -13,6 +11,4 @@ enum OPT {
     TRANSY,
     TRANSZ,
     FOV,
-    FAR,
-    NEAR
 };

@@ -13,8 +13,8 @@
 class Project{
 public:
     static Project& init();
-    friend class GUI;
-    static float m_options[14];
+    //friend class GUI;
+    static float m_renderOptions[10];
 
 private:
     Project();
@@ -32,7 +32,7 @@ private:
     void initWindow();
 
     void render();
-    void renderDebugInfo();
+    void renderMenu();
 
     void update();
     void updateEvents();
