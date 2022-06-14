@@ -63,6 +63,7 @@ Mesh::Mesh(int density) :
 		m_sfQuads.push_back(std::array<sf::Vertex, 5>());
 	}
 	updatePoints();
+
 }
 
 

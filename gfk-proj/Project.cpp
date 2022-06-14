@@ -11,10 +11,21 @@ void Project::initWindow()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(1600, 900), "3DWaveInterference");
     ImGui::SFML::Init(*m_window);
-    m_mesh.getTransMat().scaleX(m_renderOptions[RENDER::SCALEX]);
-    m_mesh.getTransMat().rotateX(m_renderOptions[RENDER::ROTX]);
-    m_mesh.getTransMat().scaleY(m_renderOptions[RENDER::SCALEY]);
-    m_mesh.getTransMat().scaleZ(m_renderOptions[RENDER::SCALEZ]);
+    initMesh();
+}
+    
+void Project::initMesh()
+{
+    m_meshPtr->getTransMat().scaleX(m_renderOptions[RENDER::SCALEX]);
+    m_meshPtr->getTransMat().scaleY(m_renderOptions[RENDER::SCALEY]);
+    m_meshPtr->getTransMat().scaleZ(m_renderOptions[RENDER::SCALEZ]);
+    m_meshPtr->getTransMat().rotateX(m_renderOptions[RENDER::ROTX]);
+    m_meshPtr->getTransMat().rotateY(m_renderOptions[RENDER::ROTY]);
+    m_meshPtr->getTransMat().rotateZ(m_renderOptions[RENDER::ROTZ]);
+    m_meshPtr->getTransMat().translateX(m_renderOptions[RENDER::TRANSX]);
+    m_meshPtr->getTransMat().translateY(m_renderOptions[RENDER::TRANSY]);
+    m_meshPtr->getTransMat().translateZ(m_renderOptions[RENDER::TRANSZ]);
+    m_mesh.getTransMat().changeFOV(m_renderOptions[RENDER::FOV]);
 }
 
 Project::Project()
@@ -65,7 +76,12 @@ void Project::updateDt()
 void Project::render()
 {
     renderMenu();
-
+    
+    while(m_isNewMesh)
+    {
+        m_mesh.renderOnWindow(m_window);
+        m_isNewMesh -= 1;
+    }
     m_window->clear();
     m_mesh.renderOnWindow(m_window);
     ImGui::SFML::Render(*m_window);
@@ -102,6 +118,15 @@ void Project::renderMenu()
     ImGui::SetWindowSize(ImVec2(300, 650));
     ImGui::Text(fps.c_str());
     ImGui::Text(frameTime.c_str());
+
+    if (ImGui::SliderInt("Mesh Density", &m_meshDensity, 50, 500))
+    {
+        delete m_meshPtr;
+        m_meshPtr = new Mesh(m_meshDensity);
+        m_isNewMesh = 2;
+        m_mesh = *m_meshPtr;
+       initMesh();
+    }
     
     ImGui::Spacing();
     ImGui::Text("Wave parameters:");
