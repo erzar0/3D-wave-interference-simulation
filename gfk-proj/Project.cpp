@@ -177,7 +177,7 @@ void Project::renderMenu()
     for (int i = 0; i < 3; i++)
         ImGui::Spacing();
 
-    if(ImGui::Button("Save", ImVec2(80.0f, 0.0f))){
+    if(ImGui::Button("Save", ImVec2(80.0f, 20.0f))){
         sf::Vector2u windowSize = m_window->getSize();
         sf::Texture texture;
         texture.create(windowSize.x, windowSize.y);
@@ -186,7 +186,7 @@ void Project::renderMenu()
         screenshot.saveToFile("output.png");
     }
     ImGui::SameLine();
-    if (ImGui::Button("Stop", ImVec2(80.0f, 0.0f))) {
+    if (ImGui::Button("Stop/Start", ImVec2(80.0f, 20.0f))) {
         stopped == false ? stopped = true : stopped = false;
     }
 
