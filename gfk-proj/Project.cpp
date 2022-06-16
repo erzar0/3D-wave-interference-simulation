@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include "windows.h"
 
 float Project::m_renderOptions[10] = { 2.4f, 0.0f, 0.0f, 0.4f, 0.4f, 0.05f, 0.0f, 0.0f, 0.0f, 60.0f };
 float Mesh::s_wavesParameters[10] = {-0.5f, -0.5f, 0.5f, 0.5f, 3.0f, 3.0f, 0.2f, 0.1f, 60.0f, 60.0f};
@@ -189,6 +190,24 @@ void Project::renderMenu()
     if (ImGui::Button("Stop/Start", ImVec2(80.0f, 20.0f))) {
         stopped == false ? stopped = true : stopped = false;
     }
+    ImGui::SameLine();
 
+    if (ImGui::Button("Copy", ImVec2(80.0f, 20.0f))) {
+        sf::Vector2u windowSize = m_window->getSize();
+        HDC hScreenDC = GetWindowDC(nullptr); //Create  DC("DISPLAY",nullptr,nullptr,nullptr);
+        HDC hMemoryDC = CreateCompatibleDC(hScreenDC);
+        int width = GetDeviceCaps(hScreenDC, HORZRES);
+        int height = GetDeviceCaps(hScreenDC, VERTRES);
+        HBITMAP hBitmap = CreateCompatibleBitmap(hScreenDC, width, height);
+        HBITMAP hOldBitmap = static_cast<HBITMAP>(SelectObject(hMemoryDC, hBitmap));
+        BitBlt(hMemoryDC, 0, 0, width, height, hScreenDC, 0, 0, SRCCOPY);
+        hBitmap = static_cast<HBITMAP>(SelectObject(hMemoryDC, hOldBitmap));
+        OpenClipboard(NULL);
+        EmptyClipboard();
+        SetClipboardData(CF_BITMAP, hBitmap);
+        CloseClipboard();
+        DeleteDC(hMemoryDC);
+        DeleteDC(hScreenDC);
+    }
 	ImGui::End();
 }
