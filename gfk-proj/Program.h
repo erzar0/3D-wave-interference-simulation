@@ -10,16 +10,16 @@
 
 
 
-class Project{
+class Program{
 public:
-    static Project& init();
+    static Program& init();
     static float m_renderOptions[10];
 
 private:
-    Project();
-    virtual ~Project();
-    Project(Project& p) = delete;
-    void operator=(Project& p) = delete;
+    Program();
+    virtual ~Program();
+    Program(Program& p) = delete;
+    void operator=(Program& p) = delete;
 
     sf::RenderWindow* m_window{};
     sf::Event m_sfEvent{};

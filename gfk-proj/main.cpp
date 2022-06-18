@@ -1,6 +1,6 @@
-#include "Project.h"
+#include "Program.h"
 #include "Mesh.h"
 int main(void)
 {
-	Project::init();
+	Program::init();
 }

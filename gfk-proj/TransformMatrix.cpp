@@ -90,6 +90,6 @@ Eigen::Matrix4d TransformMatrix::s_projectionMatrix(double angleOfView, double n
 	res << scale, 0, 0, 0,
 			0, scale, 0, 0,
 			0, 0, -far / (far - near), -1,
-			0, 0, -far * near / (far - near), 1;
+			0, 0, -far * near / (far - near),1;
 	return res;
 }

@@ -1,21 +1,23 @@
-#include "Project.h"
-#include "Utils.h"
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <thread>
+#include <chrono>
+#include "Program.h"
 #include "windows.h"
+#include "Utils.h"
 
-float Project::m_renderOptions[10] = { 2.4f, 0.0f, 0.0f, 0.4f, 0.4f, 0.05f, 0.0f, 0.0f, 0.0f, 60.0f };
+float Program::m_renderOptions[10] = { 2.4f, 0.0f, 0.0f, 0.4f, 0.4f, 0.05f, 0.0f, 0.0f, 0.0f, 60.0f };
 float Mesh::s_wavesParameters[10] = {-0.5f, -0.5f, 0.5f, 0.5f, 3.0f, 3.0f, 0.2f, 0.1f, 60.0f, 60.0f};
 
-void Project::initWindow()
+void Program::initWindow()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(1600, 900), "3DWaveInterference");
     ImGui::SFML::Init(*m_window);
     initMesh();
 }
     
-void Project::initMesh()
+void Program::initMesh()
 {
     m_meshPtr->getTransMat().scaleX(m_renderOptions[RENDER::SCALEX]);
     m_meshPtr->getTransMat().scaleY(m_renderOptions[RENDER::SCALEY]);
@@ -29,32 +31,32 @@ void Project::initMesh()
     m_mesh.getTransMat().changeFOV(m_renderOptions[RENDER::FOV]);
 }
 
-Project::Project()
+Program::Program()
 {
     initWindow();
     run();
 }
 
-Project::~Project()
+Program::~Program()
 {
 	delete m_window;
     ImGui::SFML::Shutdown();
 }
 
 
-Project& Project::init()
+Program& Program::init()
 {
-    static Project instance;
+    static Program instance;
     return instance;
 }
 
-void Project::update()
+void Program::update()
 {
     updateDt();
     updateEvents();
 }
 
-void Project::updateEvents()
+void Program::updateEvents()
 {
     while (m_window->pollEvent(m_sfEvent)) 
     {
@@ -67,14 +69,14 @@ void Project::updateEvents()
     ImGui::SFML::Update(*m_window, m_dt);
 }
 
-void Project::updateDt()
+void Program::updateDt()
 {
     m_dt = m_deltaClock.restart();
     if(!stopped)
         m_mesh.updateTime(m_dt);
 }
 
-void Project::render()
+void Program::render()
 {
     renderMenu();
     
@@ -89,7 +91,7 @@ void Project::render()
     m_window->display();
 }
 
-void Project::run()
+void Program::run()
 {
     while (m_window->isOpen())
     {
@@ -99,7 +101,7 @@ void Project::run()
 
 }
 
-void Project::renderMenu()
+void Program::renderMenu()
 {
     static std::string fps{ 0 };
     static std::string frameTime{ 0 };
@@ -124,6 +126,7 @@ void Project::renderMenu()
     {
         delete m_meshPtr;
         m_meshPtr = new Mesh(m_meshDensity);
+       std::this_thread::sleep_for(std::chrono::milliseconds(100));
         m_isNewMesh = 2;
         m_mesh = *m_meshPtr;
        initMesh();
