@@ -1,1 +1,1 @@
-![](https://github.com/3D-wave-interference-simulation/example.gif)
+![](https://github.com/erzar0/3D-wave-interference-simulation/blob/master/example.gif])
