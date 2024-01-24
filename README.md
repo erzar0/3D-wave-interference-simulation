@@ -1,4 +1,4 @@
-### Project made for Computer Graphics class at university. It's purpose is to show interference between two 3D waves. 
+### Project made for Computer Graphics class at university. It's purpose is to show interference between two waves. 
 Technologies used: 
 - SFML for drawing polygons
 - ImGui for GUI
